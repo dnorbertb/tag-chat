@@ -1,13 +1,13 @@
-import { colors } from '../../styles/colors';
-import Icon from '../UI/Icon';
+import Icon from '../../../components/Icon';
 import { TouchableOpacity, View, StyleSheet } from 'react-native';
+import { colors } from '../../../styles/colors';
 
 type Props = {
   path: string;
   onPress?: (args: unknown) => unknown;
 };
 
-export default function TopBarButton({ path, onPress }: Props): JSX.Element {
+export default function AppTopBarButton({ path, onPress }: Props): JSX.Element {
   const styles = StyleSheet.create({
     button: {
       justifyContent: 'center',

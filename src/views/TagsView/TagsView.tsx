@@ -1,8 +1,8 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import ScreenLayout from '../../Layouts/ScreenLayout';
-import TagsBox from '../../components/TagsBox/TagsBox';
-import WhiteBox from '../../components/UI/WhiteBox';
-import Icon from '../../components/UI/Icon';
+import AppView from '../AppView/AppView';
+import WhiteBox from '../../components/WhiteBox';
+import Icon from '../../components/Icon';
+import TagsBox from './TagsBox/TagsBox';
 import { mdiPlus } from '@mdi/js';
 import { colors } from '../../styles/colors';
 
@@ -11,7 +11,7 @@ import { tagsData } from '../../_dummy/dummyData';
 
 export default function TagsView() {
   return (
-    <ScreenLayout topBarHeader="Tags">
+    <AppView topBarHeader="Tags">
       <View style={styles.boxesContainer}>
         {tagsData.map((box) => (
           <TagsBox {...box} key={box.category} />
@@ -23,7 +23,7 @@ export default function TagsView() {
           <Text style={styles.addButtonText}>Add a Category</Text>
         </TouchableOpacity>
       </WhiteBox>
-    </ScreenLayout>
+    </AppView>
   );
 }
 
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 5,
     marginLeft: -10,
-    fontSize: 15
+    fontSize: 15,
   },
   addButtonText: {
     color: colors.blue600,

@@ -1,6 +1,6 @@
 import { View } from 'react-native';
-import ScreenLayout from '../../Layouts/ScreenLayout';
-import MessageTypeSwitchBar from '../../components/MessageTypeSwitchBar/MessageTypeSwitchBar';
+import AppView from '../AppView/AppView';
+import MessageTypeSwitchBar from './MessageTypeSwitchBar/MessageTypeSwitchBar';
 import { useState } from 'react';
 
 export default function ChatsView() {
@@ -8,10 +8,10 @@ export default function ChatsView() {
 
   
   return (
-    <ScreenLayout topBarHeader="Chats">
+    <AppView topBarHeader="Chats">
       <View>
         <MessageTypeSwitchBar onChange={(value) => setMessageType(value)} />
       </View>
-    </ScreenLayout>
+    </AppView>
   );
 }

@@ -1,13 +1,13 @@
+import TopBarButton from './AppTopBarButton';
 import { View, Text, StyleSheet } from 'react-native';
-import TopBarButton from './TopBarButton';
-import { colors } from '../../styles/colors';
 import { mdilPlus, mdilStar } from '@mdi/light-js';
+import { colors } from '../../../styles/colors';
 
 type Props = {
   header: string;
 };
 
-export default function TopBar({ header }: Props): JSX.Element {
+export default function AppTopBar({ header }: Props): JSX.Element {
   const pressHandler = () => console.log('Top bar button press');
 
   return (

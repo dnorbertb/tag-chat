@@ -22,7 +22,7 @@ import {
 } from '@mdi/js';
 
 import { Text } from 'react-native';
-import Icon from '../components/UI/Icon';
+import Icon from '../components/Icon';
 import { colors } from '../styles/colors';
 
 const Tab = createBottomTabNavigator();

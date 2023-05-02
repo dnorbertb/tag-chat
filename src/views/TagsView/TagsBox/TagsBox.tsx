@@ -1,7 +1,8 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import WhiteBox from '../UI/WhiteBox';
-import { colors } from '../../styles/colors';
 import SingleTag from './SingleTag';
+import WhiteBox from '../../../components/WhiteBox';
+import { colors } from '../../../styles/colors';
+
 
 interface IProps {
   color: string;

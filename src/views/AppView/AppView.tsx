@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native';
-import TopBar from '../components/TopBar/TopBar';
+import AppTopBar from './TopBar/AppTopBar';
 
 interface IProps {
   topBarHeader: string;
@@ -9,7 +9,7 @@ interface IProps {
 export default function ScreenLayout({ topBarHeader, children }: IProps) {
   return (
     <View>
-      <TopBar header={topBarHeader} />
+      <AppTopBar header={topBarHeader} />
       <View style={styles.contentView}>{children}</View>
     </View>
   );

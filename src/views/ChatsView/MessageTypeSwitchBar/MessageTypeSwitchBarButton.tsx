@@ -1,5 +1,5 @@
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { colors } from '../../styles/colors';
+import { colors } from '../../../styles/colors';
 
 export default function MessageTypeSwitchBarButton({
   name,

@@ -1,10 +1,10 @@
 import { Text } from 'react-native';
-import ScreenLayout from '../../Layouts/ScreenLayout';
+import AppView from '../AppView/AppView';
 
 export default function MenuView() {
   return (
-    <ScreenLayout topBarHeader='Menu'>
+    <AppView topBarHeader='Menu'>
       <Text>Menu view!</Text>
-    </ScreenLayout>
+    </AppView>
   )
 }

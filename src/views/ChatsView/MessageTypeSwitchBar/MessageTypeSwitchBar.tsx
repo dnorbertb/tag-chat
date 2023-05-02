@@ -1,7 +1,7 @@
+import MessageTypeSwitchBarButton from './MessageTypeSwitchBarButton';
 import { View, StyleSheet } from 'react-native';
 import { useState, useEffect } from 'react';
-import { colors } from '../../styles/colors';
-import MessageTypeSwitchBarButton from './MessageTypeSwitchBarButton';
+import { colors } from '../../../styles/colors';
 
 const messageTypeBarItems = [
   {

@@ -1,10 +1,10 @@
 import { Text } from 'react-native';
-import ScreenLayout from '../../Layouts/ScreenLayout';
+import AppView from '../AppView/AppView';
 
 export default function ContactsView() {
   return (
-    <ScreenLayout topBarHeader='Contacts'>
+    <AppView topBarHeader='Contacts'>
       <Text>Contacts view!</Text>
-    </ScreenLayout>
+    </AppView>
   )
 }

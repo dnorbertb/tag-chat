@@ -1,10 +1,10 @@
 import { Text } from 'react-native';
-import ScreenLayout from '../../Layouts/ScreenLayout';
+import AppView from '../AppView/AppView';
 
 export default function StartChatView() {
   return (
-    <ScreenLayout topBarHeader='New chat'>
+    <AppView topBarHeader='New chat'>
       <Text>New chat view</Text>
-    </ScreenLayout>
+    </AppView>
   )
 }
