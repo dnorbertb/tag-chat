@@ -6,7 +6,7 @@ import {
   createNativeStackNavigator,
   type NativeStackNavigationOptions,
 } from '@react-navigation/native-stack';
-import ChatNavigator from './src/views/ChatNavigator';
+import AppNavigator from './src/app/AppNavigator';
 import { colors } from './src/styles/colors';
 
 const Stack = createNativeStackNavigator();
@@ -25,7 +25,7 @@ export default function App() {
     <NavigationContainer>
       <View style={styles.container}>
         <Stack.Navigator screenOptions={screenOptions}>
-          <Stack.Screen name="Home" component={ChatNavigator} />
+          <Stack.Screen name="Home" component={AppNavigator} />
         </Stack.Navigator>
         <StatusBar style="light" backgroundColor={colors.blue600} />
       </View>
