@@ -72,3 +72,51 @@ export const tagsData = [
         ]
     },
 ]
+
+export const dummyConversations = [
+    {
+        image: '',
+        type: 'direct-message',
+        contactName: 'David Zielinski',
+        lastMessage: {
+            author: 'You',
+            content: 'Are you free tonight? 😇🐶'
+        }
+    },
+    {
+        image: '',
+        type: 'direct-message',
+        contactName: 'Emily Barrson',
+        lastMessage: {
+            author: 'Emily',
+            content: 'Nice!'
+        }
+    },
+    {
+        image: '',
+        type: 'direct-message',
+        contactName: 'Ez Dejesus',
+        lastMessage: {
+            author: 'Ez',
+            content: 'How are You?'
+        }
+    },
+    {
+        image: '',
+        type: 'direct-message',
+        contactName: 'Fara Lolson',
+        lastMessage: {
+            author: 'Fara',
+            content: 'I have a new dog! 🐶'
+        }
+    },
+    {
+        image: '',
+        type: 'direct-message',
+        contactName: 'Daniel Gibson',
+        lastMessage: {
+            author: 'Daniel',
+            content: 'Would you like a beer?'
+        }
+    },
+]

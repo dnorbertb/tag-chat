@@ -103,7 +103,7 @@ const screenOptions: (props: Props) => BottomTabNavigationOptions = (
   },
 });
 
-export default function ChatLayout() {
+export default function ChatNavigator() {
   return (
     <Tab.Navigator screenOptions={screenOptions as BottomTabNavigationOptions}>
       <Tab.Screen name="tags" component={TagsView} />

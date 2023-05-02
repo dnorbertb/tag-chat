@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
-import { StyleSheet, SafeAreaView, Platform, View } from 'react-native';
+import { StyleSheet, Platform, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createNativeStackNavigator,
   type NativeStackNavigationOptions,
 } from '@react-navigation/native-stack';
-import ChatLayout from './src/views/ChatLayout';
+import ChatNavigator from './src/views/ChatNavigator';
 import { colors } from './src/styles/colors';
 
 const Stack = createNativeStackNavigator();
@@ -25,7 +25,7 @@ export default function App() {
     <NavigationContainer>
       <View style={styles.container}>
         <Stack.Navigator screenOptions={screenOptions}>
-          <Stack.Screen name="Home" component={ChatLayout} />
+          <Stack.Screen name="Home" component={ChatNavigator} />
         </Stack.Navigator>
         <StatusBar style="light" backgroundColor={colors.blue600} />
       </View>
