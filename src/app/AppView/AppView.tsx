@@ -6,9 +6,9 @@ interface IProps {
   children: React.ReactNode;
 }
 
-export default function ScreenLayout({ topBarHeader, children }: IProps) {
+export default function AppView({ topBarHeader, children }: IProps) {
   return (
-    <View>
+    <View style={styles.appViewContainer}>
       <AppTopBar header={topBarHeader} />
       <View style={styles.contentView}>{children}</View>
     </View>
@@ -16,7 +16,11 @@ export default function ScreenLayout({ topBarHeader, children }: IProps) {
 }
 
 const styles = StyleSheet.create({
+  appViewContainer: {
+    flex: 1,
+  },
   contentView: {
-    padding: 15
+    padding: 15,
+    flex: 1,
   },
 });

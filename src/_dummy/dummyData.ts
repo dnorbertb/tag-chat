@@ -75,7 +75,8 @@ export const tagsData = [
 
 export const dummyConversations = [
     {
-        image: '',
+        id: 0,
+        image: 'https://images.pexels.com/photos/428364/pexels-photo-428364.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
         type: 'direct-message',
         contactName: 'David Zielinski',
         lastMessage: {
@@ -84,7 +85,8 @@ export const dummyConversations = [
         }
     },
     {
-        image: '',
+        id: 1,
+        image: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
         type: 'direct-message',
         contactName: 'Emily Barrson',
         lastMessage: {
@@ -93,7 +95,8 @@ export const dummyConversations = [
         }
     },
     {
-        image: '',
+        id: 2,
+        image: 'https://images.pexels.com/photos/2589653/pexels-photo-2589653.jpeg?auto=compress&cs=tinysrgb&w=1600',
         type: 'direct-message',
         contactName: 'Ez Dejesus',
         lastMessage: {
@@ -102,7 +105,8 @@ export const dummyConversations = [
         }
     },
     {
-        image: '',
+        id: 3,
+        image: 'https://images.pexels.com/photos/1542085/pexels-photo-1542085.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
         type: 'direct-message',
         contactName: 'Fara Lolson',
         lastMessage: {
@@ -111,7 +115,8 @@ export const dummyConversations = [
         }
     },
     {
-        image: '',
+        id: 4,
+        image: 'https://images.pexels.com/photos/428361/pexels-photo-428361.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
         type: 'direct-message',
         contactName: 'Daniel Gibson',
         lastMessage: {
