@@ -4,8 +4,10 @@ import WhiteBox from '../../../components/WhiteBox';
 import { colors } from '../../../styles/colors';
 import ChatBoxButtons from './ChatBoxButtons';
 import { forwardRef } from 'react';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 interface IProps {
+  id: number;
   image: string;
   contactName: string;
   lastMessage: {
@@ -13,11 +15,19 @@ interface IProps {
     content: string;
   };
   onSwipeableOpen: () => void;
+  goToConversation: (id: number) => void;
 }
 
 const ChatBox = forwardRef(
   (
-    { image, contactName, lastMessage, onSwipeableOpen }: IProps,
+    {
+      id,
+      image,
+      contactName,
+      lastMessage,
+      onSwipeableOpen,
+      goToConversation,
+    }: IProps,
     ref: React.ForwardedRef<Swipeable>
   ) => {
     return (
@@ -26,22 +36,24 @@ const ChatBox = forwardRef(
         ref={ref}
         renderLeftActions={() => <ChatBoxButtons />}
       >
-        <WhiteBox style={styles.whiteBox}>
-          <View style={styles.chatView}>
-            <Image
-              style={styles.image}
-              source={{
-                uri: image,
-              }}
-            />
-            <View style={styles.textContainer}>
-              <Text style={styles.name}>{contactName}</Text>
-              <Text style={styles.message}>
-                {lastMessage.author}: {lastMessage.content}
-              </Text>
+        <TouchableWithoutFeedback onPress={() => goToConversation(id)}>
+          <WhiteBox style={styles.whiteBox}>
+            <View style={styles.chatView}>
+              <Image
+                style={styles.image}
+                source={{
+                  uri: image,
+                }}
+              />
+              <View style={styles.textContainer}>
+                <Text style={styles.name}>{contactName}</Text>
+                <Text style={styles.message}>
+                  {lastMessage.author}: {lastMessage.content}
+                </Text>
+              </View>
             </View>
-          </View>
-        </WhiteBox>
+          </WhiteBox>
+        </TouchableWithoutFeedback>
       </Swipeable>
     );
   }

@@ -24,15 +24,19 @@ import {
 import { Text } from 'react-native';
 import Icon from '../components/Icon';
 import { colors } from '../styles/colors';
+import { NavigationContainer } from '@react-navigation/native';
 
-const Tab = createBottomTabNavigator();
-type RootStackParamList = {
-  [key: string]: undefined;
+export type TabStackParamList = {
+  Tags: undefined;
+  Chats: undefined;
+  NewChat: undefined;
+  Contacts: undefined;
+  Menu: undefined;
 };
 
-type Routes = 'tags' | 'chats' | 'newChat' | 'contacts' | 'menu';
+type Props = BottomTabScreenProps<TabStackParamList>;
 
-type Props = BottomTabScreenProps<RootStackParamList, Routes>;
+const Tab = createBottomTabNavigator<TabStackParamList>();
 
 const screenOptions: (props: Props) => BottomTabNavigationOptions = (
   props
@@ -44,18 +48,18 @@ const screenOptions: (props: Props) => BottomTabNavigationOptions = (
   tabBarLabel: () => '',
   tabBarIcon: ({ focused, color, size }) => {
     const labels = {
-      tags: 'Tags',
-      chats: 'Chats',
-      newChat: '',
-      contacts: 'Contacts',
-      menu: 'Menu',
+      Tags: 'Tags',
+      Chats: 'Chats',
+      NewChat: '',
+      Contacts: 'Contacts',
+      Menu: 'Menu',
     };
 
     const iconPaths: { [key: string]: string } = {
-      tags: focused ? mdiTagText : mdiTagTextOutline,
-      chats: focused ? mdiChatProcessing : mdiChatProcessingOutline,
-      contacts: focused ? mdiAccountGroup : mdiAccountGroupOutline,
-      menu: focused ? mdiSquareRounded : mdiSquareRoundedOutline,
+      Tags: focused ? mdiTagText : mdiTagTextOutline,
+      Chats: focused ? mdiChatProcessing : mdiChatProcessingOutline,
+      Contacts: focused ? mdiAccountGroup : mdiAccountGroupOutline,
+      Menu: focused ? mdiSquareRounded : mdiSquareRoundedOutline,
     };
 
     const iconComponentStyle = {
@@ -99,18 +103,20 @@ const screenOptions: (props: Props) => BottomTabNavigationOptions = (
       </View>
     );
 
-    return props.route.name === 'newChat' ? newChatIcon : standarIcon;
+    return props.route.name === 'NewChat' ? newChatIcon : standarIcon;
   },
 });
 
-export default function ChatNavigator() {
+export default function AppNavigator() {
   return (
-    <Tab.Navigator screenOptions={screenOptions as BottomTabNavigationOptions}>
-      <Tab.Screen name="tags" component={TagsView} />
-      <Tab.Screen name="chats" component={ChatsView} />
-      <Tab.Screen name="newChat" component={StartChatView} />
-      <Tab.Screen name="contacts" component={ContactsView} />
-      <Tab.Screen name="menu" component={MenuView} />
-    </Tab.Navigator>
+    <NavigationContainer>
+      <Tab.Navigator screenOptions={screenOptions}>
+        <Tab.Screen name="Tags" component={TagsView} />
+        <Tab.Screen name="Chats" component={ChatsView} />
+        <Tab.Screen name="NewChat" component={StartChatView} />
+        <Tab.Screen name="Contacts" component={ContactsView} />
+        <Tab.Screen name="Menu" component={MenuView} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }

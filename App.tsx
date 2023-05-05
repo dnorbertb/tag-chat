@@ -1,18 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { StyleSheet, Platform, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import {
-  createNativeStackNavigator,
-  type NativeStackNavigationOptions,
-} from '@react-navigation/native-stack';
 import AppNavigator from './src/app/AppNavigator';
 import { colors } from './src/styles/colors';
 
-const Stack = createNativeStackNavigator();
-const screenOptions: NativeStackNavigationOptions = {
-  headerShown: false,
-};
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -22,14 +13,15 @@ export default function App() {
   if (!fontsLoaded) return null;
 
   return (
-    <NavigationContainer>
+    // <NavigationContainer>
       <View style={styles.container}>
-        <Stack.Navigator screenOptions={screenOptions}>
+        {/* <Stack.Navigator screenOptions={screenOptions}>
           <Stack.Screen name="Home" component={AppNavigator} />
-        </Stack.Navigator>
+        </Stack.Navigator> */}
+        <AppNavigator />
         <StatusBar style="light" backgroundColor={colors.blue600} />
       </View>
-    </NavigationContainer>
+    // </NavigationContainer>
   );
 }
 
