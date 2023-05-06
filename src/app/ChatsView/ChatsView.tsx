@@ -6,12 +6,12 @@ import AppView from '../AppView/AppView';
 import MessageTypeSwitchBar from './MessageTypeSwitchBar/MessageTypeSwitchBar';
 import { dummyConversations } from '../../_dummy/dummyData';
 import ChatBox from './ChatBox/ChatBox';
-import { RootStackParams } from '../AppNavigator';
+import { RootStackParamList } from '../AppNavigator';
 
 export default function ChatsView({
   parentNavigation,
 }: {
-  parentNavigation: NativeStackScreenProps<RootStackParams>['navigation'];
+  parentNavigation: NativeStackScreenProps<RootStackParamList>['navigation'];
 }) {
   const [activeMessageType, setMessageType] = useState<Object>();
   let items: Array<Swipeable | null> = [];
