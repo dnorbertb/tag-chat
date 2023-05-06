@@ -1,10 +1,12 @@
-import { View, StyleSheet, Platform } from 'react-native';
-import ChatsView from './ChatsView/ChatsView';
-import ContactsView from './ContactsView/ContactsView';
-import StartChatView from './StartChatView/StartChatView';
-import MenuView from './MenuView/MenuView';
-import TagsView from './TagsView/TagsView';
+// Base
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import {
+  NativeStackNavigationOptions,
+  NativeStackScreenProps,
+  createNativeStackNavigator,
+} from '@react-navigation/native-stack';
 import type {
   BottomTabNavigationOptions,
   BottomTabScreenProps,
@@ -21,10 +23,27 @@ import {
   mdiSquareRoundedOutline,
 } from '@mdi/js';
 
-import { Text } from 'react-native';
+// Components
 import Icon from '../components/Icon';
+
+// Styles
 import { colors } from '../styles/colors';
-import { NavigationContainer } from '@react-navigation/native';
+
+// Views
+import ChatsView from './ChatsView/ChatsView';
+import ContactsView from './ContactsView/ContactsView';
+import StartChatView from './StartChatView/StartChatView';
+import MenuView from './MenuView/MenuView';
+import TagsView from './TagsView/TagsView';
+import ConversationView from './ConversationView/ConversationView';
+
+// Navigators
+export type RootStackParamList = {
+  Home: undefined;
+  Conversation: { id: number };
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export type TabStackParamList = {
   Tags: undefined;
@@ -34,13 +53,11 @@ export type TabStackParamList = {
   Menu: undefined;
 };
 
-type Props = BottomTabScreenProps<TabStackParamList>;
-
 const Tab = createBottomTabNavigator<TabStackParamList>();
 
-const screenOptions: (props: Props) => BottomTabNavigationOptions = (
-  props
-) => ({
+const TabNavigatorScreenOptions: (
+  props: BottomTabScreenProps<TabStackParamList>
+) => BottomTabNavigationOptions = (props) => ({
   tabBarStyle: {
     height: Platform.OS === 'ios' ? 90 : 70,
   },
@@ -107,16 +124,47 @@ const screenOptions: (props: Props) => BottomTabNavigationOptions = (
   },
 });
 
+function TabNavigator({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList>) {
+  return (
+    <Tab.Navigator screenOptions={TabNavigatorScreenOptions}>
+      <Tab.Screen name="Tags" component={TagsView} />
+      <Tab.Screen name="Chats">
+        {() => <ChatsView parentNavigation={navigation} />}
+      </Tab.Screen>
+      <Tab.Screen name="NewChat" component={StartChatView} />
+      <Tab.Screen name="Contacts" component={ContactsView} />
+      <Tab.Screen name="Menu" component={MenuView} />
+    </Tab.Navigator>
+  );
+}
+
+// This double navigation and setOptions in ConvesationsView should probably be done better
+const AppNavigatorScreenOptions = (
+  props: NativeStackScreenProps<RootStackParamList>
+): NativeStackNavigationOptions => ({
+  headerShown: props.route.name === 'Conversation' ? true : false,
+  headerStyle: {
+    backgroundColor: colors.blue600,
+  },
+  headerTintColor: '#fff',
+});
+
 export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={screenOptions}>
-        <Tab.Screen name="Tags" component={TagsView} />
-        <Tab.Screen name="Chats" component={ChatsView} />
-        <Tab.Screen name="NewChat" component={StartChatView} />
-        <Tab.Screen name="Contacts" component={ContactsView} />
-        <Tab.Screen name="Menu" component={MenuView} />
-      </Tab.Navigator>
+      <Stack.Navigator
+        initialRouteName="Conversation"
+        screenOptions={AppNavigatorScreenOptions}
+      >
+        <Stack.Screen name="Home" component={TabNavigator} />
+        <Stack.Screen
+          name="Conversation"
+          initialParams={{ id: 0 }}
+          component={ConversationView}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

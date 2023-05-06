@@ -1,22 +1,59 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ChatsList from './ChatsList/ChatsList';
-import Conversation from './Conversation/Conversation';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useState } from 'react';
+import { View, FlatList, StyleSheet } from 'react-native';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import AppView from '../AppView/AppView';
+import MessageTypeSwitchBar from './MessageTypeSwitchBar/MessageTypeSwitchBar';
+import { dummyConversations } from '../../_dummy/dummyData';
+import ChatBox from './ChatBox/ChatBox';
+import { RootStackParams } from '../AppNavigator';
 
-export type ChatsStackParamsList = {
-  Home: undefined;
-  Conversation: {
-    id: number;
+export default function ChatsView({
+  parentNavigation,
+}: {
+  parentNavigation: NativeStackScreenProps<RootStackParams>['navigation'];
+}) {
+  const [activeMessageType, setMessageType] = useState<Object>();
+  let items: Array<Swipeable | null> = [];
+  let prevOpenedItem: Swipeable | null;
+
+  const closeItem = (index: number) => {
+    if (prevOpenedItem && prevOpenedItem !== items[index]) {
+      prevOpenedItem.close();
+    }
+    prevOpenedItem = items[index];
   };
-};
 
-const ChatsViewStackNavigator =
-  createNativeStackNavigator<ChatsStackParamsList>();
+  const goToConversation = (id: number) => {
+    parentNavigation.navigate('Conversation', {
+      id: id,
+    });
+  };
 
-export default function ChatsView() {
   return (
-    <ChatsViewStackNavigator.Navigator screenOptions={{ headerShown: false }}>
-      <ChatsViewStackNavigator.Screen name="Home" component={ChatsList} />
-      <ChatsViewStackNavigator.Screen name="Conversation" component={Conversation} />
-    </ChatsViewStackNavigator.Navigator>
+    <AppView topBarHeader="Chats">
+      <View style={styles.mainContainer}>
+        <MessageTypeSwitchBar onChange={(value) => setMessageType(value)} />
+        <FlatList
+          data={dummyConversations}
+          renderItem={({ item, index }) => (
+            <ChatBox
+              ref={(ref) => (items[index] = ref)}
+              onSwipeableOpen={() => closeItem(index)}
+              goToConversation={goToConversation}
+              {...item}
+            />
+          )}
+          keyExtractor={(item) => `chat-${item.id}`}
+        />
+      </View>
+    </AppView>
   );
 }
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    gap: 16,
+    flex: 1,
+  },
+});

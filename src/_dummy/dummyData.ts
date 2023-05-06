@@ -126,6 +126,55 @@ export const dummyConversations = [
     },
 ]
 
+export const dummyConversationsContent = {
+    0: {
+        contact: {
+            image: 'https://images.pexels.com/photos/428364/pexels-photo-428364.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            contactName: 'David Zielinski',
+        },
+        messages: [
+            { type: 'sent', content: 'Are you free tonight? 😇🐶' },
+            { type: 'received', content: 'Yess!' }
+        ]
+    },
+    1: {
+        contact: {
+            image: 'https://images.pexels.com/photos/428364/pexels-photo-428364.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            contactName: 'Emily Barson',
+        },
+        messages: [
+            { type: 'sent', content: 'Are you free tonight? 😇🐶' }
+        ]
+    },
+    2: {
+        contact: {
+            image: 'https://images.pexels.com/photos/428364/pexels-photo-428364.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            contactName: 'Ez Dejesus',
+        },
+        messages: [
+            { type: 'sent', content: 'Are you free tonight? 😇🐶' }
+        ]
+    },
+    3: {
+        contact: {
+            image: 'https://images.pexels.com/photos/428364/pexels-photo-428364.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            contactName: 'Fara Lolson',
+        },
+        messages: [
+            { type: 'sent', content: 'Are you free tonight? 😇🐶' }
+        ]
+    },
+    4: {
+        contact: {
+            image: 'https://images.pexels.com/photos/428364/pexels-photo-428364.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            contactName: 'Daniel Gibson',
+        },
+        messages: [
+            { type: 'sent', content: 'Are you free tonight? 😇🐶' },
+        ]
+    }
+}
+
 
 const dummyContacts = [
     {
