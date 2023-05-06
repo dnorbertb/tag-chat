@@ -134,7 +134,24 @@ export const dummyConversationsContent = {
         },
         messages: [
             { type: 'sent', content: 'Are you free tonight? 😇🐶' },
-            { type: 'received', content: 'Yess!' }
+            { type: 'received', content: 'Yess!' },
+            { type: 'sent', content: 'Are you free tonight? 😇🐶' },
+            { type: 'received', content: 'Yess!' },
+            { type: 'sent', content: 'Are you free tonight? 😇🐶' },
+            { type: 'received', content: 'Yess!' },
+            { type: 'sent', content: 'Are you free tonight? 😇🐶' },
+            { type: 'received', content: 'Yess!' },
+            { type: 'sent', content: 'Are you free tonight? 😇🐶' },
+            { type: 'received', content: 'Yess!' },
+            { type: 'sent', content: 'Are you free tonight? 😇🐶' },
+            { type: 'received', content: 'Yess!' },
+            { type: 'sent', content: 'Are you free tonight? 😇🐶' },
+            { type: 'received', content: 'Yess!' },
+            { type: 'sent', content: 'Are you free tonight? 😇🐶' },
+            { type: 'received', content: 'Yess!' },
+            { type: 'sent', content: 'Are you free tonight? 😇🐶' },
+            { type: 'received', content: 'Yess!' },
+            
         ]
     },
     1: {

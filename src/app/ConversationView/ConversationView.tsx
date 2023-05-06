@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Image,
   TouchableOpacity,
-  KeyboardAvoidingView,
+  Keyboard,
+  KeyboardEventListener,
+  Animated,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppNavigator';
 import { dummyConversationsContent } from '../../_dummy/dummyData';
 import { colors } from '../../styles/colors';
-import { FlatList, Platform } from 'react-native';
+import { FlatList } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
 export default function ConversationView({
@@ -23,66 +25,124 @@ export default function ConversationView({
     dummyConversationsContent[
       route.params.id as keyof typeof dummyConversationsContent
     ];
+
   useEffect(() => {
     navigation.setOptions({ title: conversation.contact.contactName });
   }, []);
 
-  return (
-    <View style={styles.mainView}>
-      <View style={styles.messagesContainer}>
-        <FlatList
-          data={conversation.messages}
-          renderItem={({ item }) => {
-            if (item.type === 'received') {
-              return (
-                <ReceivedMessage
-                  image={conversation.contact.image}
-                  content={item.content}
-                />
-              );
-            } else {
-              return <SentMessage content={item.content} />;
-            }
-          }}
-          ItemSeparatorComponent={() => <View style={styles.separator} />}
-        />
+  // As I understood KeyboardAvoidingView needs ScrollView inside
+  // FlatView can't be nested inside ScrollView so this is the solution
+  // Seems to work on iOS and Android Emulator
+  useEffect(() => {
+    Keyboard.addListener('keyboardWillShow', _keyboardWillShow);
+    Keyboard.addListener('keyboardWillHide', _keyboardWillHide);
 
-        <View style={styles.newMessageContainer}>
-          <TextInput
-            style={styles.messageInput}
-            onChangeText={setMessage}
-            placeholder="Write a message..."
+    return () => {
+      Keyboard.removeAllListeners('keyboardWillShow');
+      Keyboard.removeAllListeners('keyboardWillHide');
+    };
+  }, []);
+
+  const transformAnim = useRef(new Animated.Value(0)).current;
+
+  const _keyboardWillShow: KeyboardEventListener = (e) => {
+    const keyboardHeight = e.endCoordinates.height;
+    Animated.timing(transformAnim, {
+      toValue: -keyboardHeight,
+      duration: 50,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const _keyboardWillHide = () => {
+    Animated.timing(transformAnim, {
+      toValue: 0,
+      duration: 50,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  return (
+    <Animated.View
+      style={[
+        styles.mainContainer,
+        {
+          transform: [{ translateY: transformAnim }],
+        },
+      ]}
+    >
+      <View style={styles.remainingHeightContainer}>
+        <View>
+          <FlatList
+            data={conversation.messages}
+            renderItem={({ item }) => {
+              if (item.type === 'received') {
+                return (
+                  <ReceivedMessage
+                    image={conversation.contact.image}
+                    content={item.content}
+                  />
+                );
+              } else {
+                return <SentMessage content={item.content} />;
+              }
+            }}
+            ItemSeparatorComponent={() => <View style={styles.separator} />}
+            contentContainerStyle={styles.flatListContainerStyle}
+            showsVerticalScrollIndicator={false}
           />
-          <TouchableOpacity style={styles.sendButton}>
-            <Text style={styles.sendBtnText}>Send</Text>
-          </TouchableOpacity>
         </View>
       </View>
-    </View>
+
+      <View style={styles.newMessageContainer}>
+        <TextInput
+          placeholder="Write a message..."
+          style={styles.messageInput}
+          multiline={true}
+          onChangeText={setMessage}
+        />
+        <TouchableOpacity style={styles.sendButton}>
+          <Text style={styles.sendBtnText}>Send</Text>
+        </TouchableOpacity>
+      </View>
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
-  mainView: {
+  mainContainer: {
     flex: 1,
+    flexDirection: 'column',
+    paddingHorizontal: 15,
+    paddingVertical: 15,
   },
-  messagesContainer: {
+  remainingHeightContainer: {
     flex: 1,
-    padding: 15,
+    justifyContent: 'flex-end',
+  },
+  flatListContainerStyle: {
+    paddingBottom: 30,
   },
   separator: {
     height: 10,
     backgroundColor: 'transparent',
   },
+
+  // New message component
   newMessageContainer: {
+    marginTop: 'auto',
+    maxHeight: 120,
+    paddingVertical: 5,
     flexDirection: 'row',
-    paddingVertical: 15,
+    alignItems: 'flex-end',
     gap: 10,
+    borderColor: colors.gray100,
+    borderTopWidth: 1
   },
   messageInput: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingVertical: 6,
+    minHeight: 50,
     fontSize: 16,
     backgroundColor: 'white',
     borderWidth: 1,
@@ -92,7 +152,8 @@ const styles = StyleSheet.create({
   sendButton: {
     justifyContent: 'center',
     backgroundColor: colors.blue600,
-    paddingHorizontal: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 15,
   },
   sendBtnText: {
@@ -101,7 +162,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 
-  // Components below
+  // Message components below
   // Received component
   receivedMessage: {
     flexDirection: 'row',
@@ -125,6 +186,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
+
   // Sent message component
   sentMessage: {
     alignSelf: 'flex-end',

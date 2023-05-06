@@ -155,13 +155,13 @@ export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Conversation"
+        // initialRouteName="Conversation"
         screenOptions={AppNavigatorScreenOptions}
       >
         <Stack.Screen name="Home" component={TabNavigator} />
         <Stack.Screen
           name="Conversation"
-          initialParams={{ id: 0 }}
+          // initialParams={{ id: 0 }}
           component={ConversationView}
         />
       </Stack.Navigator>
