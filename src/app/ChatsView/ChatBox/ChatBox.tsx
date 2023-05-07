@@ -8,15 +8,9 @@ import {
   GestureHandlerRootView,
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
+import { IConversation } from '../../../_dummy/dummyData';
 
-interface IProps {
-  id: number;
-  image: string;
-  contactName: string;
-  lastMessage: {
-    author: string;
-    content: string;
-  };
+interface IProps extends IConversation {
   onSwipeableOpen: () => void;
   goToConversation: (id: number) => void;
 }
@@ -25,14 +19,21 @@ const ChatBox = forwardRef(
   (
     {
       id,
-      image,
-      contactName,
-      lastMessage,
+      type,
+      unread,
+      contact,
+      messages,
       onSwipeableOpen,
       goToConversation,
     }: IProps,
     ref: React.ForwardedRef<Swipeable>
   ) => {
+    const lastMsg = messages.slice(-1)[0];
+    const lastMsgAuthor =
+      lastMsg.type === 'received'
+        ? `${contact.firstName}`
+        : 'You';
+
     return (
       <GestureHandlerRootView>
         <Swipeable
@@ -46,13 +47,15 @@ const ChatBox = forwardRef(
                 <Image
                   style={styles.image}
                   source={{
-                    uri: image,
+                    uri: contact.image,
                   }}
                 />
                 <View style={styles.textContainer}>
-                  <Text style={styles.name}>{contactName}</Text>
+                  <Text style={styles.name}>
+                    {contact.firstName} {contact.lastName}
+                  </Text>
                   <Text style={styles.message}>
-                    {lastMessage.author}: {lastMessage.content}
+                    {lastMsgAuthor}: {lastMsg.content}
                   </Text>
                 </View>
               </View>

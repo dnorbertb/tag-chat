@@ -1,15 +1,15 @@
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors } from '../../../styles/colors';
 
-export default function MessageTypeSwitchBarButton({
+export default function MessageTypeSwitchBarButton<T>({
   name,
   onPress,
   active,
   value,
 }: {
   name: string;
-  value: Object;
-  onPress: (arg: Object) => void;
+  value: T;
+  onPress: (arg: T) => void;
   active?: boolean;
 }): JSX.Element {
   const style = StyleSheet.create({
