@@ -11,23 +11,26 @@ import {
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../AppNavigator';
-import { dummyConversationsContent } from '../../_dummy/dummyData';
 import { colors } from '../../styles/colors';
 import { FlatList } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import { useAppSelector } from '../../store/store';
 
 export default function ConversationView({
   route,
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'Conversation'>) {
   const [message, setMessage] = useState('');
-  const conversation =
-    dummyConversationsContent[
-      route.params.id as keyof typeof dummyConversationsContent
-    ];
+
+  // This component should have fixed types but I don't have time for it,
+  const conversation = useAppSelector((state) =>
+    state.conversations.value.find((c) => c.id === route.params.id)
+  );
 
   useEffect(() => {
-    navigation.setOptions({ title: conversation.contact.contactName });
+    navigation.setOptions({
+      title: `${conversation?.contact.firstName} ${conversation?.contact.lastName}`,
+    });
   }, []);
 
   // As I understood KeyboardAvoidingView needs ScrollView inside
@@ -74,12 +77,12 @@ export default function ConversationView({
       <View style={styles.remainingHeightContainer}>
         <View>
           <FlatList
-            data={conversation.messages}
+            data={conversation?.messages}
             renderItem={({ item }) => {
               if (item.type === 'received') {
                 return (
                   <ReceivedMessage
-                    image={conversation.contact.image}
+                    image={conversation!.contact.image}
                     content={item.content}
                   />
                 );
@@ -137,7 +140,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     gap: 10,
     borderColor: colors.gray50,
-    borderTopWidth: 1
+    borderTopWidth: 1,
   },
   messageInput: {
     flex: 1,

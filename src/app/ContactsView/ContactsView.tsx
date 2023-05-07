@@ -1,11 +1,14 @@
 import { Text, View, Image, StyleSheet } from 'react-native';
 import AppView from '../AppView/AppView';
-import { dummyContacts } from '../../_dummy/dummyData';
 import { ScrollView } from 'react-native-gesture-handler';
 import { colors } from '../../styles/colors';
+import { useAppSelector } from '../../store/store';
 
 export default function ContactsView() {
-  const contactsAlphabetical = dummyContacts.sort((a, b) => {
+  const contactsData = useAppSelector((state) => state.contacts.value);
+  const contactsAlphabetical = [...contactsData];
+
+  contactsAlphabetical.sort((a, b) => {
     if (a.firstName < b.firstName) return -1;
     if (a.firstName > b.firstName) return 1;
     return 0;
@@ -17,7 +20,6 @@ export default function ContactsView() {
   const firstLettersListWithoutDuplicates = [...new Set(firstLettersList)];
 
   // Images are loaded from network but they should be stored on device to avoid loading
-
   return (
     <AppView topBarHeader="Contacts">
       <ScrollView>
@@ -61,7 +63,7 @@ export default function ContactsView() {
 
 const styles = StyleSheet.create({
   listSpacer: {
-    height: 30
+    height: 30,
   },
 
   // Letter indicator component
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   contactTextsContainer: {
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   contactNameText: {
     fontSize: 16,
@@ -106,6 +108,6 @@ const styles = StyleSheet.create({
   },
   contactNumberText: {
     fontSize: 14,
-    color: colors.gray200
+    color: colors.gray200,
   },
 });

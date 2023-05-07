@@ -3,7 +3,8 @@ import { useFonts } from 'expo-font';
 import { StyleSheet, Platform, View } from 'react-native';
 import AppNavigator from './src/app/AppNavigator';
 import { colors } from './src/styles/colors';
-
+import { Provider } from 'react-redux';
+import { appDataStore } from './src/store/store';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -13,15 +14,12 @@ export default function App() {
   if (!fontsLoaded) return null;
 
   return (
-    // <NavigationContainer>
+    <Provider store={appDataStore}>
       <View style={styles.container}>
-        {/* <Stack.Navigator screenOptions={screenOptions}>
-          <Stack.Screen name="Home" component={AppNavigator} />
-        </Stack.Navigator> */}
         <AppNavigator />
         <StatusBar style="light" backgroundColor={colors.blue600} />
       </View>
-    // </NavigationContainer>
+    </Provider>
   );
 }
 
@@ -29,6 +27,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Platform.OS === 'android' ? 25 : 40,
-    backgroundColor: colors.blue600
+    backgroundColor: colors.blue600,
   },
 });

@@ -5,18 +5,18 @@ import Icon from '../../components/Icon';
 import TagsBox from './TagsBox/TagsBox';
 import { mdiPlus } from '@mdi/js';
 import { colors } from '../../styles/colors';
-
-// Dummy
-import { tagsData } from '../../_dummy/dummyData';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useAppSelector } from '../../store/store';
 
 export default function TagsView() {
+  const tagList = useAppSelector((state) => state.tags.value);
+
   return (
     <AppView topBarHeader="Tags">
       <ScrollView>
         <View style={styles.contentContainer}>
           <View style={styles.boxesContainer}>
-            {tagsData.map((box) => (
+            {tagList.map((box) => (
               <TagsBox {...box} key={box.category} />
             ))}
           </View>

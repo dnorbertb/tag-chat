@@ -144,7 +144,7 @@ function TabNavigator({
     <Tab.Navigator screenOptions={TabNavigatorScreenOptions}>
       <Tab.Screen name="Tags" component={TagsView} />
       <Tab.Screen name="Chats">
-        {() => <ChatsView parentNavigation={navigation} />}
+        {() => <ChatsView rootNavigation={navigation} />}
       </Tab.Screen>
       <Tab.Screen name="NewChat">{() => <></>}</Tab.Screen>
       <Tab.Screen name="Contacts" component={ContactsView} />

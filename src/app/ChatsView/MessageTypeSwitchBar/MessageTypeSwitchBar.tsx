@@ -3,29 +3,39 @@ import { View, StyleSheet } from 'react-native';
 import { useState, useEffect } from 'react';
 import { colors } from '../../../styles/colors';
 
-const messageTypeBarItems = [
+const messageTypeBarItems: {
+  value: IConversationsFilter;
+  name: string;
+}[] = [
   {
-    value: { type: undefined },
+    value: { filter: undefined },
     name: 'All',
   },
   {
-    value: { type: 'direct-message' },
+    value: { filter: { type: 'direct-message' } },
     name: 'Directs',
   },
   {
-    value: { type: 'group-message' },
+    value: { filter: { type: 'group-message' } },
     name: 'Groups',
   },
 ];
 
+export interface IConversationsFilter {
+  filter:
+    | undefined
+    | { type: 'group-message' | 'direct-message' }
+    | { unread: boolean };
+}
+
 interface IProps {
-  onChange: (value: Object) => void;
+  onChange: (value: IConversationsFilter) => void;
 }
 
 export default function MessageTypeSwitchBar({ onChange }: IProps) {
   const [activeButton, setActiveButton] = useState<number>();
 
-  const pressHandler = (value: Object, index: number) => {
+  const pressHandler = (value: IConversationsFilter, index: number) => {
     setActiveButton(index);
     onChange(value);
   };
@@ -49,7 +59,7 @@ export default function MessageTypeSwitchBar({ onChange }: IProps) {
       <MessageTypeSwitchBarButton
         name="Unread"
         onPress={(value) => pressHandler(value, messageTypeBarItems.length)}
-        value={{ unread: true }}
+        value={{ filter: { unread: true } }}
         active={activeButton === messageTypeBarItems.length}
       />
     </View>

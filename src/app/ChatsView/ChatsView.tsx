@@ -1,23 +1,30 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import AppView from '../AppView/AppView';
-import MessageTypeSwitchBar from './MessageTypeSwitchBar/MessageTypeSwitchBar';
-import { dummyConversations } from '../../_dummy/dummyData';
+import MessageTypeSwitchBar, {
+  IConversationsFilter,
+} from './MessageTypeSwitchBar/MessageTypeSwitchBar';
+import { IConversation } from '../../_dummy/dummyData';
 import ChatBox from './ChatBox/ChatBox';
 import { RootStackParamList } from '../AppNavigator';
+import { useAppSelector } from '../../store/store';
 
 export default function ChatsView({
-  parentNavigation,
+  rootNavigation,
 }: {
-  parentNavigation: NativeStackScreenProps<RootStackParamList>['navigation'];
+  rootNavigation: NativeStackScreenProps<RootStackParamList>['navigation'];
 }) {
-  const [activeMessageType, setMessageType] = useState<Object>();
+  const [activeMessageType, setMessageType] = useState<IConversationsFilter>();
+  const [conversations, setConversations] = useState<Array<IConversation>>();
+  const conversationsStoreData = useAppSelector(
+    (state) => state.conversations.value
+  );
   let items: Array<Swipeable | null> = [];
   let prevOpenedItem: Swipeable | null;
 
-  const closeItem = (index: number) => {
+  const closeLastSwipableItem = (index: number) => {
     if (prevOpenedItem && prevOpenedItem !== items[index]) {
       prevOpenedItem.close();
     }
@@ -25,21 +32,44 @@ export default function ChatsView({
   };
 
   const goToConversation = (id: number) => {
-    parentNavigation.navigate('Conversation', {
+    rootNavigation.navigate('Conversation', {
       id: id,
     });
   };
+
+  useEffect(() => {
+    const sort = (arr: IConversation[]) =>
+      arr.sort((a, b) => a.lastUpdate.getTime() - b.lastUpdate.getTime());
+
+    if (!activeMessageType?.filter) {
+      const cDataCopy = [...conversationsStoreData];
+      sort(cDataCopy);
+      setConversations(cDataCopy);
+      return;
+    }
+
+    const [filterName, filterValue] = Object.entries(
+      activeMessageType.filter
+    )[0];
+    const withFilter = conversationsStoreData.filter(
+      (c) => c[filterName as keyof IConversation] === filterValue
+    );
+
+    sort(withFilter);
+    setConversations(withFilter);
+    return;
+  }, [activeMessageType, conversationsStoreData]);
 
   return (
     <AppView topBarHeader="Chats">
       <View style={styles.mainContainer}>
         <MessageTypeSwitchBar onChange={(value) => setMessageType(value)} />
         <FlatList
-          data={dummyConversations}
+          data={conversations}
           renderItem={({ item, index }) => (
             <ChatBox
               ref={(ref) => (items[index] = ref)}
-              onSwipeableOpen={() => closeItem(index)}
+              onSwipeableOpen={() => closeLastSwipableItem(index)}
               goToConversation={goToConversation}
               {...item}
             />
@@ -55,6 +85,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     gap: 16,
     flex: 1,
-    padding: 15
+    padding: 15,
   },
 });
