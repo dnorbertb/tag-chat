@@ -172,7 +172,10 @@ export default function AppNavigator() {
         <Stack.Screen name="Conversation" component={ConversationView} />
         <Stack.Screen
           name="StartChat"
-          options={{ title: 'Send new message' }}
+          options={{
+            title: 'Send new message',
+            presentation: 'modal',
+          }}
           component={StartChatView}
         />
       </Stack.Navigator>
