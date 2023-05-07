@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentView: {
-    padding: 15,
     flex: 1,
   },
 });

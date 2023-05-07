@@ -18,7 +18,7 @@ export default function MessageTypeSwitchBarButton({
       alignItems: 'center',
       borderRadius: 10,
       paddingVertical: 6,
-      backgroundColor: active ? colors.gray100 : 'white',
+      backgroundColor: active ? colors.gray50 : 'white',
     },
     buttonText: {
       color: active ? 'black' : colors.gray200,

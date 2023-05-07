@@ -70,6 +70,6 @@ const styles = StyleSheet.create({
   divider: {
     height: 8,
     width: 2,
-    backgroundColor: colors.gray100,
+    backgroundColor: colors.gray50,
   },
 });

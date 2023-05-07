@@ -193,7 +193,7 @@ export const dummyConversationsContent = {
 }
 
 
-const dummyContacts = [
+export const dummyContacts = [
     {
         "id": 1,
         "firstName": "Terry",

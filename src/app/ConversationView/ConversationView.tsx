@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     gap: 10,
-    borderColor: colors.gray100,
+    borderColor: colors.gray50,
     borderTopWidth: 1
   },
   messageInput: {
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     backgroundColor: 'white',
     borderWidth: 1,
-    borderColor: colors.gray100,
+    borderColor: colors.gray50,
     borderRadius: 15,
   },
   sendButton: {
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: colors.gray100,
+    borderColor: colors.gray50,
   },
   receivedMessageTextContainer: {
     backgroundColor: colors.blue600,
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     paddingHorizontal: 15,
     paddingVertical: 5,
-    backgroundColor: colors.gray100,
+    backgroundColor: colors.gray50,
     borderRadius: 15,
   },
   sentMessageText: {

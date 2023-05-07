@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
   boxesContainer: {
     rowGap: 15,
     marginBottom: 15,
+    padding: 15,
   },
   addButton: {
     flexDirection: 'row',

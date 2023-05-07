@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     borderRadius: 14,
-    borderColor: colors.gray100,
+    borderColor: colors.gray50,
     borderWidth: 1,
   },
   textContainer: {
