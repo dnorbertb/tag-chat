@@ -4,7 +4,10 @@ import WhiteBox from '../../../components/WhiteBox';
 import { colors } from '../../../styles/colors';
 import ChatBoxButtons from './ChatBoxButtons';
 import { forwardRef } from 'react';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import {
+  GestureHandlerRootView,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
 
 interface IProps {
   id: number;
@@ -31,30 +34,32 @@ const ChatBox = forwardRef(
     ref: React.ForwardedRef<Swipeable>
   ) => {
     return (
-      <Swipeable
-        onSwipeableOpen={onSwipeableOpen}
-        ref={ref}
-        renderLeftActions={() => <ChatBoxButtons />}
-      >
-        <TouchableWithoutFeedback onPress={() => goToConversation(id)}>
-          <WhiteBox style={styles.whiteBox}>
-            <View style={styles.chatView}>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: image,
-                }}
-              />
-              <View style={styles.textContainer}>
-                <Text style={styles.name}>{contactName}</Text>
-                <Text style={styles.message}>
-                  {lastMessage.author}: {lastMessage.content}
-                </Text>
+      <GestureHandlerRootView>
+        <Swipeable
+          onSwipeableOpen={onSwipeableOpen}
+          ref={ref}
+          renderLeftActions={() => <ChatBoxButtons />}
+        >
+          <TouchableWithoutFeedback onPress={() => goToConversation(id)}>
+            <WhiteBox style={styles.whiteBox}>
+              <View style={styles.chatView}>
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: image,
+                  }}
+                />
+                <View style={styles.textContainer}>
+                  <Text style={styles.name}>{contactName}</Text>
+                  <Text style={styles.message}>
+                    {lastMessage.author}: {lastMessage.content}
+                  </Text>
+                </View>
               </View>
-            </View>
-          </WhiteBox>
-        </TouchableWithoutFeedback>
-      </Swipeable>
+            </WhiteBox>
+          </TouchableWithoutFeedback>
+        </Swipeable>
+      </GestureHandlerRootView>
     );
   }
 );

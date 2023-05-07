@@ -22,7 +22,7 @@ export default function ContactsView() {
     <AppView topBarHeader="Contacts">
       <ScrollView>
         {firstLettersListWithoutDuplicates.map((letter) => (
-          <View>
+          <View key={`letterIndicatorComponent=${letter}`}>
             <View style={styles.letterIndicator}>
               <Text style={styles.letterIndicatorText}>{letter}</Text>
             </View>
@@ -33,7 +33,7 @@ export default function ContactsView() {
               )
               .map((contact) => {
                 return (
-                  <View style={styles.contactComponent}>
+                  <View key={contact.id} style={styles.contactComponent}>
                     <Image
                       style={styles.contactImage}
                       source={{

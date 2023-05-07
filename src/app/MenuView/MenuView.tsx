@@ -15,6 +15,7 @@ export default function MenuView() {
             {menuItems.map((item, index) => {
               return (
                 <View
+                  key={item}
                   style={[
                     styles.menuItem,
                     index !== menuItems.length - 1 && styles.borderBottom,
