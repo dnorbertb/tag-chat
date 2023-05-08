@@ -3,6 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { tagsSlice } from "../features/tags";
 import { contactSlice } from '../features/contacts';
 import { conversationSlice } from '../features/conversations';
+import { appSlice } from '../features/app';
 
 type RootState = ReturnType<typeof appDataStore.getState>
 type AppDispatch = typeof appDataStore.dispatch
@@ -13,6 +14,7 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export const appDataStore = configureStore({
     reducer: {
+        app: appSlice.reducer,
         tags: tagsSlice.reducer,
         contacts: contactSlice.reducer,
         conversations: conversationSlice.reducer

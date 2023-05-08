@@ -21,7 +21,7 @@ export default function StartChatView() {
         receiverId and message and click send to send the message. Please don't
         test the API or something because it was made for fun and there is no
         security or complex error handling. Your user ID should be visible in
-        left top corner.
+        Menu Tab in right bottom corner.
       </Text>
     </View>
   );

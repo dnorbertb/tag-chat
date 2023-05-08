@@ -83,10 +83,10 @@ export interface IConversation {
         lastName: string
     },
     messages: Array<{ type: string, content: string }>,
-    lastUpdate: Date
+    lastUpdate: string
 }
 
-export const dummyConversations: Array<IConversation> = [
+export const dummyConversations = (date: Date): Array<IConversation> => [
     {
         id: 0,
         type: 'direct-message',
@@ -100,7 +100,7 @@ export const dummyConversations: Array<IConversation> = [
             { type: 'sent', content: 'Are you free tonight? 😇' },
             { type: 'received', content: 'Yess!' },
         ],
-        lastUpdate: new Date()
+        lastUpdate: String(date)
     },
     {
         id: 1,
@@ -114,7 +114,7 @@ export const dummyConversations: Array<IConversation> = [
         messages: [
             { type: 'received', content: 'Nice!' },
         ],
-        lastUpdate: new Date()
+        lastUpdate: String(date)
     },
     {
         id: 2,
@@ -128,7 +128,7 @@ export const dummyConversations: Array<IConversation> = [
         messages: [
             { type: 'received', content: 'How are You?' },
         ],
-        lastUpdate: new Date()
+        lastUpdate: String(date)
     },
     {
         id: 3,
@@ -145,7 +145,7 @@ export const dummyConversations: Array<IConversation> = [
                 content: 'I have a new dog! 🐶'
             }
         ],
-        lastUpdate: new Date()
+        lastUpdate: String(date)
     },
     {
         id: 4,
@@ -160,7 +160,7 @@ export const dummyConversations: Array<IConversation> = [
             type: 'received',
             content: 'Would you like a beer?'
         }],
-        lastUpdate: new Date()
+        lastUpdate: String(date)
     },
 ]
 

@@ -1,4 +1,4 @@
-import { View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import AppTopBar from './TopBar/AppTopBar';
 
 interface IProps {
@@ -7,6 +7,7 @@ interface IProps {
 }
 
 export default function AppView({ topBarHeader, children }: IProps) {
+
   return (
     <View style={styles.appViewContainer}>
       <AppTopBar header={topBarHeader} />
@@ -22,4 +23,5 @@ const styles = StyleSheet.create({
   contentView: {
     flex: 1,
   },
+
 });

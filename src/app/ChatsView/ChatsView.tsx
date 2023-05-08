@@ -39,7 +39,10 @@ export default function ChatsView({
 
   useEffect(() => {
     const sort = (arr: IConversation[]) =>
-      arr.sort((a, b) => a.lastUpdate.getTime() - b.lastUpdate.getTime());
+      arr.sort(
+        (a, b) =>
+          new Date(a.lastUpdate).getTime() - new Date(b.lastUpdate).getTime()
+      );
 
     if (!activeMessageType?.filter) {
       const cDataCopy = [...conversationsStoreData];

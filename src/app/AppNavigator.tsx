@@ -42,10 +42,12 @@ import StartChatView from './StartChatView/StartChatView';
 import MenuView from './MenuView/MenuView';
 import TagsView from './TagsView/TagsView';
 import ConversationView from './ConversationView/ConversationView';
+import RegisterView from './RegisterView/RegisterView';
 
 // Navigators
 export type RootStackParamList = {
   Home: undefined;
+  App: undefined;
   Conversation: { id: number };
   StartChat: undefined;
 };
@@ -157,7 +159,7 @@ function TabNavigator({
 const AppNavigatorScreenOptions = (
   props: NativeStackScreenProps<RootStackParamList>
 ): NativeStackNavigationOptions => ({
-  headerShown: props.route.name === 'Home' ? false : true,
+  headerShown: props.route.name === 'App' ? false : true,
   headerStyle: {
     backgroundColor: colors.blue600,
   },
@@ -168,7 +170,8 @@ export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={AppNavigatorScreenOptions}>
-        <Stack.Screen name="Home" component={TabNavigator} />
+        <Stack.Screen name="Home" component={RegisterView} />
+        <Stack.Screen name="App" component={TabNavigator} />
         <Stack.Screen name="Conversation" component={ConversationView} />
         <Stack.Screen
           name="StartChat"

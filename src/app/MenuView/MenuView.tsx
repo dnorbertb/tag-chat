@@ -3,10 +3,13 @@ import AppView from '../AppView/AppView';
 import { colors } from '../../styles/colors';
 import Icon from '../../components/Icon';
 import { mdiChevronRight } from '@mdi/js';
+import { useAppSelector } from '../../store/store';
 
 export default function MenuView() {
   // This is only template to not leave UI empty
   const menuItems = ['Account', 'Notifications', 'Settings'];
+  const appState = useAppSelector((state) => state.app.value);
+
   return (
     <AppView topBarHeader="Menu">
       <View style={styles.mainContainer}>
@@ -33,6 +36,7 @@ export default function MenuView() {
           </ScrollView>
         </View>
       </View>
+      <Text style={styles.userIdText}>User ID: {appState.userId}</Text>
     </AppView>
   );
 }
@@ -40,6 +44,14 @@ export default function MenuView() {
 const styles = StyleSheet.create({
   mainContainer: {
     padding: 15,
+  },
+  userIdText: {
+    position: 'absolute',
+    bottom: 0,
+    right: 5,
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.gray200
   },
 
   contentContainer: {
