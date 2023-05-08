@@ -1,3 +1,4 @@
+import { IConversation } from "../features/conversations";
 import { colors } from "../styles/colors";
 
 export const tagsData = [
@@ -73,22 +74,11 @@ export const tagsData = [
     },
 ]
 
-export interface IConversation {
-    id: number,
-    type: 'direct-message' | 'group-message',
-    unread: boolean,
-    contact: {
-        image: string,
-        firstName: string,
-        lastName: string
-    },
-    messages: Array<{ type: string, content: string }>,
-    lastUpdate: string
-}
+
 
 export const dummyConversations = (date: Date): Array<IConversation> => [
     {
-        id: 0,
+        id: '0',
         type: 'direct-message',
         unread: true,
         contact: {
@@ -103,7 +93,7 @@ export const dummyConversations = (date: Date): Array<IConversation> => [
         lastUpdate: String(date)
     },
     {
-        id: 1,
+        id: '1',
         type: 'direct-message',
         unread: false,
         contact: {
@@ -117,7 +107,7 @@ export const dummyConversations = (date: Date): Array<IConversation> => [
         lastUpdate: String(date)
     },
     {
-        id: 2,
+        id: '2',
         type: 'direct-message',
         unread: false,
         contact: {
@@ -131,7 +121,7 @@ export const dummyConversations = (date: Date): Array<IConversation> => [
         lastUpdate: String(date)
     },
     {
-        id: 3,
+        id: '3',
         type: 'direct-message',
         unread: false,
         contact: {
@@ -148,7 +138,7 @@ export const dummyConversations = (date: Date): Array<IConversation> => [
         lastUpdate: String(date)
     },
     {
-        id: 4,
+        id: '4',
         type: 'direct-message',
         unread: false,
         contact: {

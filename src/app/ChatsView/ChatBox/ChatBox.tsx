@@ -8,11 +8,12 @@ import {
   GestureHandlerRootView,
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
-import { IConversation } from '../../../_dummy/dummyData';
+import { IConversation } from '../../../features/conversations';
+
 
 interface IProps extends IConversation {
   onSwipeableOpen: () => void;
-  goToConversation: (id: number) => void;
+  goToConversation: (id: string) => void;
 }
 
 const ChatBox = forwardRef(

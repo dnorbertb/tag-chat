@@ -1,5 +1,4 @@
 // Base
-import { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -44,15 +43,13 @@ import MenuView from './MenuView/MenuView';
 import TagsView from './TagsView/TagsView';
 import ConversationView from './ConversationView/ConversationView';
 import RegisterView from './RegisterView/RegisterView';
-import { apiAddress } from '../configs/apiConfig';
-import { useAppSelector } from '../store/store';
-import EventSource, { EventSourceListener } from 'react-native-sse';
+import { useEventListener } from '../use/useEventListener';
 
 // Navigators
 export type RootStackParamList = {
   Home: undefined;
   App: undefined;
-  Conversation: { id: number };
+  Conversation: { id: string };
   StartChat: undefined;
 };
 
@@ -173,40 +170,9 @@ const AppNavigatorScreenOptions = (
 });
 
 export default function AppNavigator() {
-  const [data, setData] = useState('test');
-  const [listening, setListenig] = useState(false);
-  const userId = useAppSelector((state) => state.app.value.userId);
-
-
-  useEffect(() => {
-    if (!listening && userId.length > 4) {
-      const query = `?id=${userId}`;
-      const es = new EventSource(apiAddress + '/events' + query);
-
-      const onMessage: EventSourceListener = (e) => {
-        console.log(e)
-        setData(e.type)
-      };
-
-      es.addEventListener('message', onMessage);
-      es.addEventListener("open", onMessage);
-      // es.addEventListener("message", listener);
-      // es.addEventListener("error", listener);
-
-      setListenig(true);
-
-      return () => {
-        console.log("removed")
-        setListenig(false);
-        es.removeAllEventListeners();
-        es.close();
-      };
-    }
-  }, [userId]);
-
+  const state = useEventListener();
   return (
     <NavigationContainer>
-      <Text>{data}</Text>
       <Stack.Navigator screenOptions={AppNavigatorScreenOptions}>
         <Stack.Screen name="Home" component={RegisterView} />
         <Stack.Screen name="App" component={TabNavigator} />

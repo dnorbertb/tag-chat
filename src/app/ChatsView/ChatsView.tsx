@@ -6,10 +6,10 @@ import AppView from '../AppView/AppView';
 import MessageTypeSwitchBar, {
   IConversationsFilter,
 } from './MessageTypeSwitchBar/MessageTypeSwitchBar';
-import { IConversation } from '../../_dummy/dummyData';
 import ChatBox from './ChatBox/ChatBox';
 import { RootStackParamList } from '../AppNavigator';
 import { useAppSelector } from '../../store/store';
+import { IConversation } from '../../features/conversations';
 
 export default function ChatsView({
   rootNavigation,
@@ -31,7 +31,7 @@ export default function ChatsView({
     prevOpenedItem = items[index];
   };
 
-  const goToConversation = (id: number) => {
+  const goToConversation = (id: string) => {
     rootNavigation.navigate('Conversation', {
       id: id,
     });
