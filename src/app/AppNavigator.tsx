@@ -1,4 +1,5 @@
 // Base
+import { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -43,6 +44,9 @@ import MenuView from './MenuView/MenuView';
 import TagsView from './TagsView/TagsView';
 import ConversationView from './ConversationView/ConversationView';
 import RegisterView from './RegisterView/RegisterView';
+import { apiAddress } from '../configs/apiConfig';
+import { useAppSelector } from '../store/store';
+import EventSource, { EventSourceListener } from 'react-native-sse';
 
 // Navigators
 export type RootStackParamList = {
@@ -67,6 +71,7 @@ const Tab = createBottomTabNavigator<TabStackParamList>();
 function TabNavigator({
   navigation,
 }: NativeStackScreenProps<RootStackParamList>) {
+  // Screen options
   const TabNavigatorScreenOptions: (
     props: BottomTabScreenProps<TabStackParamList>
   ) => BottomTabNavigationOptions = (props) => ({
@@ -142,6 +147,7 @@ function TabNavigator({
     },
   });
 
+  // Navigator component
   return (
     <Tab.Navigator screenOptions={TabNavigatorScreenOptions}>
       <Tab.Screen name="Tags" component={TagsView} />
@@ -167,8 +173,40 @@ const AppNavigatorScreenOptions = (
 });
 
 export default function AppNavigator() {
+  const [data, setData] = useState('test');
+  const [listening, setListenig] = useState(false);
+  const userId = useAppSelector((state) => state.app.value.userId);
+
+
+  useEffect(() => {
+    if (!listening && userId.length > 4) {
+      const query = `?id=${userId}`;
+      const es = new EventSource(apiAddress + '/events' + query);
+
+      const onMessage: EventSourceListener = (e) => {
+        console.log(e)
+        setData(e.type)
+      };
+
+      es.addEventListener('message', onMessage);
+      es.addEventListener("open", onMessage);
+      // es.addEventListener("message", listener);
+      // es.addEventListener("error", listener);
+
+      setListenig(true);
+
+      return () => {
+        console.log("removed")
+        setListenig(false);
+        es.removeAllEventListeners();
+        es.close();
+      };
+    }
+  }, [userId]);
+
   return (
     <NavigationContainer>
+      <Text>{data}</Text>
       <Stack.Navigator screenOptions={AppNavigatorScreenOptions}>
         <Stack.Screen name="Home" component={RegisterView} />
         <Stack.Screen name="App" component={TabNavigator} />

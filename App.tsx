@@ -17,7 +17,6 @@ export default function App() {
     <Provider store={appDataStore}>
       <View style={styles.container}>
         <AppNavigator />
-
         <StatusBar style="light" backgroundColor={colors.blue600} />
       </View>
     </Provider>
