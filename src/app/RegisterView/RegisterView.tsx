@@ -5,12 +5,8 @@ import { useState, useEffect } from 'react';
 import { registerUser } from '../../services/registerService';
 import { useAppDispatch } from '../../store/store';
 import { setUserId } from '../../features/app';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../AppNavigator';
 
-export default function RegisterView({
-  navigation,
-}: NativeStackScreenProps<RootStackParamList>) {
+export default function RegisterView() {
   const dispatch = useAppDispatch();
   const [username, setUsername] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(true);
@@ -27,10 +23,10 @@ export default function RegisterView({
 
   const pressHandler = async () => {
     setLoading(true);
-    const response = await registerUser(username);
+    const usernameParsed = username.replaceAll(' ', '_');
+    const response = await registerUser(usernameParsed);
     if (response.success) {
       dispatch(setUserId(response.data.username));
-      navigation.navigate('App');
     } else {
       setErrMsg(true);
       setLoading(false);
@@ -74,14 +70,17 @@ export default function RegisterView({
 const styles = StyleSheet.create({
   mainContainer: {
     padding: 15,
+    flex: 1,
+    backgroundColor: '#f1f1f1'
   },
   textInput: {
     fontSize: 18,
     paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingVertical: 10,
     backgroundColor: 'white',
     borderRadius: 10,
-    marginBottom: 10,
+    marginTop: 5,
+    marginBottom: 20,
   },
   errorMessage: {
     color: 'red',

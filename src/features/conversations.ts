@@ -1,17 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { dummyConversations } from '../_dummy/dummyData'
 
-interface IConversationsState {
-    value: ReturnType<typeof dummyConversations>
-}
-
-interface IAddMessagePayload {
-    sentByUser: boolean,
-    senderId: string,
-    receiverId: string,
-    content: string
-}
-
 export interface IConversation {
     id: string,
     type: 'direct-message' | 'group-message',
@@ -25,6 +14,23 @@ export interface IConversation {
     lastUpdate: string
 }
 
+interface IConversationsState {
+    value: ReturnType<typeof dummyConversations>
+}
+
+interface IAddMessagePayload {
+    sentByUser: boolean,
+    senderId: string,
+    receiverId: string,
+    content: string
+}
+
+interface IUpdateMessagePayload extends Partial<IConversation> {
+    id: string
+}
+
+
+
 const initialState: IConversationsState = {
     value: dummyConversations(new Date())
 }
@@ -34,39 +40,46 @@ export const conversationSlice = createSlice({
     initialState,
     reducers: {
         addMessageToConversation: (state, action: PayloadAction<IAddMessagePayload>) => {
-            const { payload } = action;
-            const msgType = payload.sentByUser ? 'sent' : 'received';
+            const { senderId, receiverId, sentByUser, content } = action.payload;
+            const msgType = sentByUser ? 'sent' : 'received';
+            const convId = sentByUser ? receiverId : senderId
             const dateString = JSON.stringify(new Date());
-            const conversation = state.value.find(conversation => conversation.id === action.payload.senderId);
+            const conversation = state.value.find(conversation => conversation.id === convId);
             if (conversation) {
                 conversation.messages.push({
                     type: msgType,
-                    content: payload.content
+                    content: content
                 });
                 conversation.lastUpdate = dateString;
                 conversation.unread = msgType === 'received';
             } else {
-                state.value.push({
-                    id: payload.senderId,
+                state.value = [...state.value, {
+                    id: convId,
                     type: 'direct-message',
                     unread: true,
                     contact: {
                         image: 'https://robohash.org/laboriosamfacilisrem.png',
-                        firstName: payload.senderId,
+                        firstName: convId,
                         lastName: 'Surname'
                     },
                     messages: [
                         {
                             type: msgType,
-                            content: payload.content
+                            content: content
                         }
                     ],
                     lastUpdate: dateString
-                });
+                }]
             }
         },
-        setConversationAsRead: (state, action) => {
-
+        updateConversation: (state, action: PayloadAction<IUpdateMessagePayload>) => {
+            const { payload } = action;
+            const conversation = state.value.find(conversation => conversation.id === payload.id);
+            if (!conversation) return;
+           // Fix update here
         },
     }
 })
+
+
+export const { addMessageToConversation, updateConversation } = conversationSlice.actions;

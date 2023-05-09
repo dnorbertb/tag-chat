@@ -10,7 +10,6 @@ import {
 } from 'react-native-gesture-handler';
 import { IConversation } from '../../../features/conversations';
 
-
 interface IProps extends IConversation {
   onSwipeableOpen: () => void;
   goToConversation: (id: string) => void;
@@ -31,9 +30,11 @@ const ChatBox = forwardRef(
   ) => {
     const lastMsg = messages.slice(-1)[0];
     const lastMsgAuthor =
-      lastMsg.type === 'received'
-        ? `${contact.firstName}`
-        : 'You';
+      lastMsg.type === 'received' ? `${contact.firstName}` : 'You';
+    const lastMsgContentParsed =
+      lastMsg.content.length > 15
+        ? lastMsg.content.slice(0, 15) + '...'
+        : lastMsg.content;
 
     return (
       <GestureHandlerRootView>
@@ -56,9 +57,10 @@ const ChatBox = forwardRef(
                     {contact.firstName} {contact.lastName}
                   </Text>
                   <Text style={styles.message}>
-                    {lastMsgAuthor}: {lastMsg.content}
+                    {lastMsgAuthor}: {lastMsgContentParsed}
                   </Text>
                 </View>
+                {unread && <View style={styles.unreadIndicator} />}
               </View>
             </WhiteBox>
           </TouchableWithoutFeedback>
@@ -95,6 +97,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
     color: colors.gray200,
+  },
+  unreadIndicator: {
+    height: 10,
+    width: 10,
+    backgroundColor: colors.blue600,
+    borderRadius: 20,
   },
 });
 

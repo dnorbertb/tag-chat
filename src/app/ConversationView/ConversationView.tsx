@@ -14,25 +14,67 @@ import { RootStackParamList } from '../AppNavigator';
 import { colors } from '../../styles/colors';
 import { FlatList } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { useAppSelector } from '../../store/store';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { sendMessageService } from '../../services/messageService';
+import {
+  IConversation,
+  addMessageToConversation,
+} from '../../features/conversations';
 
 export default function ConversationView({
   route,
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'Conversation'>) {
-  const [message, setMessage] = useState('');
+  const [sendDisabled, setSendDisabled] = useState(false);
+  const [content, setContent] = useState('');
+  const dispatch = useAppDispatch();
+  const currUserId = useAppSelector((state) => state.app.value.userId);
 
   // This component should have fixed types but I don't have time for it,
   const conversation = useAppSelector((state) =>
     state.conversations.value.find((c) => c.id === route.params.id)
-  );
+  ) as IConversation;
 
+  // Set title on the top
   useEffect(() => {
     navigation.setOptions({
-      title: `${conversation?.contact.firstName} ${conversation?.contact.lastName}`,
+      title: `${conversation.contact.firstName} ${conversation.contact.lastName}`,
     });
   }, []);
 
+  // Set conversation as read
+  useEffect(() => {
+    /// USE DISPACH HERE
+    conversation.unread = false;
+    conversation.lastUpdate = JSON.stringify(new Date());
+  }, [conversation.messages]);
+
+  // Send button handler
+  const sendButtonHandler = async () => {
+    if (content.length < 1) return;
+    setSendDisabled(true);
+
+    const req = await sendMessageService({
+      receiverId: route.params.id,
+      content,
+      senderId: currUserId,
+    });
+
+    if (req.success) {
+      dispatch(
+        addMessageToConversation({
+          receiverId: route.params.id,
+          senderId: currUserId,
+          content,
+          sentByUser: true,
+        })
+      );
+    }
+    setContent('');
+    setSendDisabled(false);
+  };
+
+  // Chat size handling
   // As I understood KeyboardAvoidingView needs ScrollView inside
   // FlatView can't be nested inside ScrollView so this is the solution
   // Seems to work on iOS and Android Emulator
@@ -102,9 +144,14 @@ export default function ConversationView({
           placeholder="Write a message..."
           style={styles.messageInput}
           multiline={true}
-          onChangeText={setMessage}
+          onChangeText={setContent}
+          value={content}
         />
-        <TouchableOpacity style={styles.sendButton}>
+        <TouchableOpacity
+          disabled={sendDisabled}
+          onPress={sendButtonHandler}
+          style={styles.sendButton}
+        >
           <Text style={styles.sendBtnText}>Send</Text>
         </TouchableOpacity>
       </View>

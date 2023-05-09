@@ -43,12 +43,15 @@ import MenuView from './MenuView/MenuView';
 import TagsView from './TagsView/TagsView';
 import ConversationView from './ConversationView/ConversationView';
 import RegisterView from './RegisterView/RegisterView';
-import { useEventListener } from '../use/useEventListener';
+
+// Logic
+import { serverEventListener } from '../composables/serverEventListener';
+import { useEffect, useState } from 'react';
+import { useAppSelector } from '../store/store';
 
 // Navigators
 export type RootStackParamList = {
   Home: undefined;
-  App: undefined;
   Conversation: { id: string };
   StartChat: undefined;
 };
@@ -162,20 +165,19 @@ function TabNavigator({
 const AppNavigatorScreenOptions = (
   props: NativeStackScreenProps<RootStackParamList>
 ): NativeStackNavigationOptions => ({
-  headerShown: props.route.name === 'App' ? false : true,
+  headerShown: props.route.name === 'Home' ? false : true,
   headerStyle: {
     backgroundColor: colors.blue600,
   },
   headerTintColor: '#fff',
 });
 
-export default function AppNavigator() {
-  const state = useEventListener();
+function StackNavigator() {
+  const { isListening } = serverEventListener();
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={AppNavigatorScreenOptions}>
-        <Stack.Screen name="Home" component={RegisterView} />
-        <Stack.Screen name="App" component={TabNavigator} />
+        <Stack.Screen name="Home" component={TabNavigator} />
         <Stack.Screen name="Conversation" component={ConversationView} />
         <Stack.Screen
           name="StartChat"
@@ -188,4 +190,20 @@ export default function AppNavigator() {
       </Stack.Navigator>
     </NavigationContainer>
   );
+}
+
+export default function AppNavigator() {
+  const [userRegistered, setUserRegistered] = useState(false);
+  const userId = useAppSelector((state) => state.app.value.userId);
+
+  useEffect(() => {
+    const state = userId.length > 4;
+    setUserRegistered(state);
+  }, [userId]);
+
+  if (userRegistered) {
+    return <StackNavigator />;
+  } else {
+    return <RegisterView />;
+  }
 }
