@@ -6,40 +6,36 @@ import AppView from '../AppView/AppView';
 import MessageTypeSwitchBar, {
   IConversationsFilter,
 } from './MessageTypeSwitchBar/MessageTypeSwitchBar';
-import { IConversation } from '../../_dummy/dummyData';
 import ChatBox from './ChatBox/ChatBox';
-import { RootStackParamList } from '../AppNavigator';
+import { RootStackParamList, TabStackParamList } from '../AppNavigator';
 import { useAppSelector } from '../../store/store';
+import { IConversation } from '../../features/conversations';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 
 export default function ChatsView({
+  tabNavigationScreenProps,
   rootNavigation,
 }: {
+  tabNavigationScreenProps: BottomTabScreenProps<TabStackParamList, 'Chats'>;
   rootNavigation: NativeStackScreenProps<RootStackParamList>['navigation'];
 }) {
+  // props
+  const { navigation, route } = tabNavigationScreenProps;
+  // Sorting - component data
   const [activeMessageType, setMessageType] = useState<IConversationsFilter>();
   const [conversations, setConversations] = useState<Array<IConversation>>();
   const conversationsStoreData = useAppSelector(
     (state) => state.conversations.value
   );
-  let items: Array<Swipeable | null> = [];
-  let prevOpenedItem: Swipeable | null;
-
-  const closeLastSwipableItem = (index: number) => {
-    if (prevOpenedItem && prevOpenedItem !== items[index]) {
-      prevOpenedItem.close();
-    }
-    prevOpenedItem = items[index];
-  };
-
-  const goToConversation = (id: number) => {
-    rootNavigation.navigate('Conversation', {
-      id: id,
-    });
-  };
 
   useEffect(() => {
     const sort = (arr: IConversation[]) =>
-      arr.sort((a, b) => a.lastUpdate.getTime() - b.lastUpdate.getTime());
+      arr
+        .sort(
+          (a, b) =>
+            new Date(a.lastUpdate).getTime() - new Date(b.lastUpdate).getTime()
+        )
+        .reverse();
 
     if (!activeMessageType?.filter) {
       const cDataCopy = [...conversationsStoreData];
@@ -59,6 +55,37 @@ export default function ChatsView({
     setConversations(withFilter);
     return;
   }, [activeMessageType, conversationsStoreData]);
+
+  /**
+   * Redirect effect
+   * If user sends new message is redirected to conversations
+   * Then to right conversation
+   * If user is goin back is redirected to conversations tab
+   * Not to new message tab
+   */
+  useEffect(() => {
+    const redirectToId = route.params?.chatId;
+    if (!redirectToId) return;
+    goToConversation(redirectToId);
+  }, []);
+
+  // Swipeable state/closing functionality
+  let items: Array<Swipeable | null> = [];
+  let prevOpenedItem: Swipeable | null;
+
+  const closeLastSwipableItem = (index: number) => {
+    if (prevOpenedItem && prevOpenedItem !== items[index]) {
+      prevOpenedItem.close();
+    }
+    prevOpenedItem = items[index];
+  };
+
+  // Helpers
+  const goToConversation = (id: string) => {
+    rootNavigation.navigate('Conversation', {
+      id: id,
+    });
+  };
 
   return (
     <AppView topBarHeader="Chats">

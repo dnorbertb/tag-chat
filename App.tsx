@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
-import { StyleSheet, Platform, View } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import AppNavigator from './src/app/AppNavigator';
 import { colors } from './src/styles/colors';
 import { Provider } from 'react-redux';
@@ -29,4 +29,5 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? 25 : 40,
     backgroundColor: colors.blue600,
   },
+
 });

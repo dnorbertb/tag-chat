@@ -1,3 +1,4 @@
+import { IConversation } from "../features/conversations";
 import { colors } from "../styles/colors";
 
 export const tagsData = [
@@ -73,22 +74,11 @@ export const tagsData = [
     },
 ]
 
-export interface IConversation {
-    id: number,
-    type: 'direct-message' | 'group-message',
-    unread: boolean,
-    contact: {
-        image: string,
-        firstName: string,
-        lastName: string
-    },
-    messages: Array<{ type: string, content: string }>,
-    lastUpdate: Date
-}
 
-export const dummyConversations: Array<IConversation> = [
+
+export const dummyConversations = (date: Date): Array<IConversation> => [
     {
-        id: 0,
+        id: '0',
         type: 'direct-message',
         unread: true,
         contact: {
@@ -100,10 +90,10 @@ export const dummyConversations: Array<IConversation> = [
             { type: 'sent', content: 'Are you free tonight? 😇' },
             { type: 'received', content: 'Yess!' },
         ],
-        lastUpdate: new Date()
+        lastUpdate: String(date)
     },
     {
-        id: 1,
+        id: '1',
         type: 'direct-message',
         unread: false,
         contact: {
@@ -114,10 +104,10 @@ export const dummyConversations: Array<IConversation> = [
         messages: [
             { type: 'received', content: 'Nice!' },
         ],
-        lastUpdate: new Date()
+        lastUpdate: String(date)
     },
     {
-        id: 2,
+        id: '2',
         type: 'direct-message',
         unread: false,
         contact: {
@@ -128,10 +118,10 @@ export const dummyConversations: Array<IConversation> = [
         messages: [
             { type: 'received', content: 'How are You?' },
         ],
-        lastUpdate: new Date()
+        lastUpdate: String(date)
     },
     {
-        id: 3,
+        id: '3',
         type: 'direct-message',
         unread: false,
         contact: {
@@ -145,10 +135,10 @@ export const dummyConversations: Array<IConversation> = [
                 content: 'I have a new dog! 🐶'
             }
         ],
-        lastUpdate: new Date()
+        lastUpdate: String(date)
     },
     {
-        id: 4,
+        id: '4',
         type: 'direct-message',
         unread: false,
         contact: {
@@ -160,7 +150,7 @@ export const dummyConversations: Array<IConversation> = [
             type: 'received',
             content: 'Would you like a beer?'
         }],
-        lastUpdate: new Date()
+        lastUpdate: String(date)
     },
 ]
 
