@@ -19,6 +19,7 @@ import { sendMessageService } from '../../services/messageService';
 import {
   IConversation,
   addMessageToConversation,
+  setConversationAsRead,
 } from '../../features/conversations';
 
 export default function ConversationView({
@@ -29,10 +30,11 @@ export default function ConversationView({
   const [content, setContent] = useState('');
   const dispatch = useAppDispatch();
   const currUserId = useAppSelector((state) => state.app.value.userId);
+  const conversationId = route.params.id;
 
   // This component should have fixed types but I don't have time for it,
   const conversation = useAppSelector((state) =>
-    state.conversations.value.find((c) => c.id === route.params.id)
+    state.conversations.value.find((c) => c.id === conversationId)
   ) as IConversation;
 
   // Set title on the top
@@ -42,11 +44,14 @@ export default function ConversationView({
     });
   }, []);
 
-  // Set conversation as read
+/**
+ * Set conversation as read
+ * Dispatch when messages are changing
+ * If user is in conversation message should be read imediately
+ * Not only if user enters conversation
+ */
   useEffect(() => {
-    /// USE DISPACH HERE
-    conversation.unread = false;
-    conversation.lastUpdate = JSON.stringify(new Date());
+    dispatch(setConversationAsRead({ id: conversationId }));
   }, [conversation.messages]);
 
   // Send button handler
@@ -55,7 +60,7 @@ export default function ConversationView({
     setSendDisabled(true);
 
     const req = await sendMessageService({
-      receiverId: route.params.id,
+      receiverId: conversationId,
       content,
       senderId: currUserId,
     });
@@ -63,7 +68,7 @@ export default function ConversationView({
     if (req.success) {
       dispatch(
         addMessageToConversation({
-          receiverId: route.params.id,
+          receiverId: conversationId,
           senderId: currUserId,
           content,
           sentByUser: true,
@@ -74,10 +79,12 @@ export default function ConversationView({
     setSendDisabled(false);
   };
 
-  // Chat size handling
-  // As I understood KeyboardAvoidingView needs ScrollView inside
-  // FlatView can't be nested inside ScrollView so this is the solution
-  // Seems to work on iOS and Android Emulator
+/**
+ * Chat size handling
+ * As I understood KeyboardAvoidingView needs ScrollView inside
+ * FlatView can't be nested inside ScrollView so this is the solution
+ * Seems to work on iOS and Android Emulator
+ */
   useEffect(() => {
     Keyboard.addListener('keyboardWillShow', _keyboardWillShow);
     Keyboard.addListener('keyboardWillHide', _keyboardWillHide);

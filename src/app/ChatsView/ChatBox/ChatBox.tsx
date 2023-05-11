@@ -19,7 +19,6 @@ const ChatBox = forwardRef(
   (
     {
       id,
-      type,
       unread,
       contact,
       messages,
@@ -41,7 +40,7 @@ const ChatBox = forwardRef(
         <Swipeable
           onSwipeableOpen={onSwipeableOpen}
           ref={ref}
-          renderLeftActions={() => <ChatBoxButtons />}
+          renderLeftActions={() => <ChatBoxButtons {...{ id, contact }} />}
         >
           <TouchableWithoutFeedback onPress={() => goToConversation(id)}>
             <WhiteBox style={styles.whiteBox}>

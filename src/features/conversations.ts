@@ -25,7 +25,7 @@ interface IAddMessagePayload {
     content: string
 }
 
-interface IUpdateMessagePayload extends Partial<IConversation> {
+interface IConversationIdPayload {
     id: string
 }
 
@@ -72,14 +72,19 @@ export const conversationSlice = createSlice({
                 }]
             }
         },
-        updateConversation: (state, action: PayloadAction<IUpdateMessagePayload>) => {
-            const { payload } = action;
-            const conversation = state.value.find(conversation => conversation.id === payload.id);
+        setConversationAsRead: (state, action: PayloadAction<IConversationIdPayload>) => {
+            const { payload: { id } } = action;
+            const conversation = state.value.find(conversation => conversation.id === id);
             if (!conversation) return;
-           // Fix update here
+            conversation.unread = false;
+            return;
+        },
+        removeConversation: (state, action: PayloadAction<IConversationIdPayload>) => {
+            const { payload: { id } } = action;
+            state.value = state.value.filter(c => c.id !== id);
         },
     }
 })
 
 
-export const { addMessageToConversation, updateConversation } = conversationSlice.actions;
+export const { addMessageToConversation, setConversationAsRead, removeConversation } = conversationSlice.actions;

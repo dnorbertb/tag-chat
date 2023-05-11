@@ -6,13 +6,15 @@ import { sendMessageService } from '../../services/messageService';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { addMessageToConversation } from '../../features/conversations';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../AppNavigator';
+import { TabStackParamList } from '../AppNavigator';
 
 export default function StartChatView({
+  route,
   navigation,
-}: NativeStackScreenProps<RootStackParamList>) {
+}: NativeStackScreenProps<TabStackParamList, 'NewChat'>) {
   const dispatch = useAppDispatch();
   const senderId = useAppSelector((state) => state.app.value.userId);
+  const [sendActionPending, setSendActionPending] = useState(false);
   const [receiverId, setReceiverId] = useState('');
   const [content, setContent] = useState('');
   const [errMsg, setErrMsg] = useState('');
@@ -23,6 +25,7 @@ export default function StartChatView({
       setErrMsg('No receiver or content');
       return;
     }
+    setSendActionPending(true);
     const req = await sendMessageService({
       receiverId,
       senderId,
@@ -38,10 +41,13 @@ export default function StartChatView({
           sentByUser: true,
         })
       );
-      navigation.navigate('Conversation', { id: receiverId });
+      navigation.navigate('Chats', { chatId: receiverId });
+      setReceiverId('');
+      setContent('');
     } else {
       setErrMsg('Some error message, try again later');
     }
+    setSendActionPending(false);
   };
 
   return (
@@ -59,7 +65,14 @@ export default function StartChatView({
         multiline={true}
         placeholder="Message..."
       />
-      <TouchableOpacity onPress={sendButtonHandler} style={styles.sendButton}>
+      <TouchableOpacity
+        disabled={sendActionPending}
+        onPress={sendButtonHandler}
+        style={[
+          styles.sendButton,
+          sendActionPending && styles.sendButtonDisabled,
+        ]}
+      >
         <Text style={styles.sendButtonText}>Send</Text>
       </TouchableOpacity>
       {errMsg.length > 1 && <Text>{errMsg}</Text>}
@@ -96,6 +109,9 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: colors.blue600,
     marginBottom: 10,
+  },
+  sendButtonDisabled: {
+    backgroundColor: colors.gray300,
   },
   sendButtonText: {
     fontSize: 18,
