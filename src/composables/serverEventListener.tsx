@@ -4,12 +4,14 @@ import { apiAddress } from '../configs/apiConfig';
 import EventSource, { EventSourceListener } from 'react-native-sse';
 import { fetchNewMessagesService } from '../services/messageService';
 import { addMessageToConversation } from '../features/conversations';
+import { scheduleMessagePushNotification } from '../helpers/scheduleMessagePushNotification';
 
 export const serverEventListener = () => {
   const [isListening, setListenig] = useState(false);
   const userId = useAppSelector((state) => state.app.value.userId);
   const dispatch = useAppDispatch();
 
+  // Event listener
   useEffect(() => {
     if (!isListening && userId.length > 4) {
       const query = `?id=${userId}`;
@@ -24,6 +26,8 @@ export const serverEventListener = () => {
             newMessages.data.forEach((m) => {
               dispatch(addMessageToConversation({ sentByUser: false, ...m }));
             });
+            const lastMsg = newMessages.data.at(-1)!;
+            scheduleMessagePushNotification(lastMsg);
           }
         }
       };
@@ -33,7 +37,6 @@ export const serverEventListener = () => {
       setListenig(true);
 
       return () => {
-        console.log('removed');
         setListenig(false);
         es.removeAllEventListeners();
         es.close();

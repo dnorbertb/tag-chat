@@ -20,7 +20,7 @@ export default function ChatsView({
   rootNavigation: NativeStackScreenProps<RootStackParamList>['navigation'];
 }) {
   // props
-  const { navigation, route } = tabNavigationScreenProps;
+  const { route } = tabNavigationScreenProps;
   // Sorting - component data
   const [activeMessageType, setMessageType] = useState<IConversationsFilter>();
   const [conversations, setConversations] = useState<Array<IConversation>>();

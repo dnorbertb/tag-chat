@@ -1,10 +1,5 @@
 // Base
-import {
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-} from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import {
@@ -47,6 +42,7 @@ import RegisterView from './RegisterView/RegisterView';
 import { serverEventListener } from '../composables/serverEventListener';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '../store/store';
+import { addNotificationResponseReceivedListener } from 'expo-notifications';
 
 /**
  * Navigators definitions
@@ -152,6 +148,15 @@ const TabNavigatorScreenOptions: (
 function TabNavigator({
   navigation,
 }: NativeStackScreenProps<RootStackParamList>) {
+  // Listening for message notification tap to open right conversation
+  useEffect(() => {
+    const subscription = addNotificationResponseReceivedListener((response) => {
+      const data = response.notification.request.content.data;
+      navigation.navigate('Conversation', { id: data.senderId });
+    });
+    return () => subscription.remove();
+  }, []);
+
   return (
     <Tab.Navigator screenOptions={TabNavigatorScreenOptions}>
       <Tab.Screen name="Tags" component={TagsView} />
@@ -199,7 +204,6 @@ function StackNavigator() {
     </NavigationContainer>
   );
 }
-
 
 // App Navigator - registration handler
 export default function AppNavigator() {
