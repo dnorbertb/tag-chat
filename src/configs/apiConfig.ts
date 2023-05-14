@@ -1,1 +1,1 @@
-export const apiAddress = 'http://192.168.0.133:3000';
+export const apiAddress = 'http://srv18.mikr.us:40049';

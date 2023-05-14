@@ -5,11 +5,42 @@ import AppNavigator from './src/app/AppNavigator';
 import { colors } from './src/styles/colors';
 import { Provider } from 'react-redux';
 import { appDataStore } from './src/store/store';
+import {
+  requestPermissionsAsync,
+  setNotificationHandler,
+} from 'expo-notifications';
+import { useEffect } from 'react';
+
+// Notifications config
+setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
+
+// Permisions handler function
+async function handleiOSPermissions() {
+  await requestPermissionsAsync({
+    ios: {
+      allowAlert: true,
+      allowBadge: true,
+      allowSound: true,
+      allowAnnouncements: true,
+    },
+  });
+}
 
 export default function App() {
   const [fontsLoaded] = useFonts({
     Manrope: require('./src/assets/Fonts/Manrope.ttf'),
   });
+
+  // iOS notifications permissions handler
+  useEffect(() => {
+    handleiOSPermissions();
+  }, []);
 
   if (!fontsLoaded) return null;
 
@@ -29,5 +60,4 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? 25 : 40,
     backgroundColor: colors.blue600,
   },
-
 });
