@@ -33,6 +33,8 @@ export const serverEventListener = () => {
       };
 
       es.addEventListener('message', onMessage);
+      es.addEventListener('error', (e) => console.log('Connection error', e));
+      es.addEventListener('open', () => console.log('Server connected'));
 
       setListenig(true);
 
