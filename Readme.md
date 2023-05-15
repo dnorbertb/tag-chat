@@ -32,11 +32,14 @@ Goal of this project was just to build the design visible on the image above but
 
 ### Try Me
 
-This app and API is hosted on my private VPS server and can be tried on your device. To try the app please open `exp://srv18.mikr.us:40050` or scan the QR code below:
+This app and API is hosted on my private VPS server and can be tried on your device using Expo Go App. 
+To try the app please open `exp://srv18.mikr.us:40050` or scan the QR code below:
 
 ![QR Code Image][qrcode-screenshot]
 
-VPS server is quite slow so bundling and downloading app can be quite long. Development server restarts every 24 hours so after restart, app will bundle longer, even up to 1-2 minutes. Please follow on screen instructions to run it. When You register yourself in app, your username will be visible on "Menu" Screen, in right bottom corner. You can give it to someone to test the chat or use postman to send message to yourself.
+On Android you need to do that in Expo Go App, on iOS you can just use camera app or web browser/Safari. 
+
+VPS server is quite slow so bundling and downloading app can be quite long. Development server restarts every 24 hours so after restart, app will bundle longer, even up to 1-2 minutes. Please follow on screen instructions to run the app. When You register yourself in app, your username will be visible on "Menu" Screen, in right bottom corner. You can give it to someone to test the chat or use Postman to send message to yourself.
 
 #### Postman how to
 
