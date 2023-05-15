@@ -17,7 +17,7 @@
 
 ## About The Project
 
-This app is inspired by [Filip Legierski](https://dribbble.com/kedavra) - [Riotters](https://dribbble.com/riotters) design. Check in on [Dribbble](https://dribbble.com/shots/16118990-Tagchat-Mobile-Application) and [Behance](https://www.behance.net/gallery/123874177/Tagchat/)
+This app is inspired by [Filip Legierski](https://dribbble.com/kedavra) - [Riotters](https://dribbble.com/riotters) design. Check it on [Dribbble](https://dribbble.com/shots/16118990-Tagchat-Mobile-Application) and [Behance](https://www.behance.net/gallery/123874177/Tagchat/)
 
 [![Tag Chat Screen Shot][product-screenshot]](https://dribbble.com/shots/16118990-Tagchat-Mobile-Application)
 
