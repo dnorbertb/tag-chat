@@ -17,20 +17,14 @@
 
 ## About The Project
 
-This app is inspired by [Filip Legierski](https://dribbble.com/kedavra) - [Riotters](https://dribbble.com/riotters) design. Check it on [Dribbble](https://dribbble.com/shots/16118990-Tagchat-Mobile-Application) and [Behance](https://www.behance.net/gallery/123874177/Tagchat/)
-
-[![Tag Chat Screen Shot][product-screenshot]](https://dribbble.com/shots/16118990-Tagchat-Mobile-Application)
-
-Goal of this project was just to build the design visible on the image above but during the coding process I decided to add to it some minimal functionality. This is of course not real app, this will be not compiled and used but it's now possible to send and receive messages between devices.
-
-### Built With
+#### Built With
 
 - React Native
 - Redux
 - Node.js
 - Express.js and Server-Sent Events
 
-### Try Me
+#### Try Me
 
 This app and API is hosted on my private VPS server and can be tried on your device using Expo Go App. 
 To try the app please open `exp://srv18.mikr.us:40050` or scan the QR code below:
@@ -59,7 +53,7 @@ NB. If you test app on android device, you should probably receive notification 
 
 ### Additional information
 
-As I wrote before it's not the real app, it's just preview/demo. I built that for fun in approx 40 hours. Backend is written in one file, not protected and doesn't have any database connected to store the data. There is many things which can be improved but since it's not the real project, I didn't care too much. Like for example message request body above. It should contain much more stuff. As I remember, adding messages should be done better in Redux because it's not so straight forward right now. Notifications were made just to work. It would need more time to make this app running in the background and make notifications looks nice on Android. But some thing's are also prepared like for real app. I didn't check how can I store data in app but I heard something about SQLite. I think SQLite should be connected to Redux instead of dummy data. SSE are emitting only info about new messages, and messages are downloaded by another request because I think it would be easier to add authentication this way. There are also some comments in the code. I want to focus on other things so I will not spend more time on this project.
+As I wrote before it's not the real app. I built that for fun in approx 40 hours. Backend is written in one file, not protected and doesn't have any database connected to store the data. There is many things which can be improved but since it's not the real project, I didn't care too much. Like for example message request body above. It should contain much more stuff. As I remember, adding messages should be done better in Redux because it's not so straight forward right now. Notifications were made just to work. It would need more time to make this app running in the background and make notifications looks nice on Android. But some thing's are also prepared like for real app. I didn't check how can I store data in app but I heard something about SQLite. I think SQLite should be connected to Redux instead of dummy data. SSE are emitting only info about new messages, and messages are downloaded by another request because I think it would be easier to add authentication this way. There are also some comments in the code. I want to focus on other things so I will not spend more time on this project.
 
 
 ## Getting Started 
@@ -102,5 +96,4 @@ You need to have Node.js installed to run this.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[product-screenshot]: screenshots/app_design.png
 [qrcode-screenshot]: screenshots/code.png
