@@ -58,7 +58,7 @@ As I wrote before it's not the real app. I built that for fun in approx 40 hours
 
 ## Getting Started 
 
-This is an example of how you may give instructions on setting up your project locally.
+Instructions how to run thi project locally.
 You need to have Node.js installed to run this.
 
 ### Installation
