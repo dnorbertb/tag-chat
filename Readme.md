@@ -37,7 +37,7 @@ VPS server is quite slow so bundling and downloading app can be quite long. Deve
 
 #### Postman how to
 
-Endpoint url: `http://srv18.mikr.us:40049/message`, method `POST`, request body type: `JSON`. Content:
+Endpoint url: `http://srv18.mikr.us:40049/chat/message`, method `POST`, request body type: `JSON`. Content:
 
 ```js
 {
