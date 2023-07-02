@@ -1,1 +1,1 @@
-export const apiAddress = 'http://srv18.mikr.us:40049';
+export const apiAddress = 'http://srv18.mikr.us:40049/chat';
